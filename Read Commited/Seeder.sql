@@ -27,3 +27,18 @@ BEGIN TRAN;
 COMMIT;
 --ROLLBACK;
 
+BEGIN TRAN;
+	ALTER TABLE Posts
+	ADD ParentId INT,
+	FOREIGN KEY (ParentId) REFERENCES Posts(PostId);
+
+	SELECT * FROM dbo.Posts;
+
+	UPDATE Posts
+	SET ParentId = 1000010
+	WHERE PostId <> 1000010;
+
+	SELECT * FROM dbo.Posts;
+COMMIT;
+--ROLLBACK;
+
