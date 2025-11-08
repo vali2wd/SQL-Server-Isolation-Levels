@@ -7,27 +7,18 @@
 
  --	Specifies that statements can't read data that was modified but not committed by other transactions. This prevents dirty reads. Data can be changed by other transactions between individual statements within the current transaction, resulting in nonrepeatable reads or phantom data. This option is the SQL Server default.    
  
-BEGIN TRAN;
-	UPDATE p
-	SET p.PostTypeId = 1
-	FROM dbo.Posts p
-	WHERE p.Id IN (
-		927378,
-		927386,
-		927397,
-		3377569);
-	
-	SELECT p.Id, p.PostTypeId
-	FROM dbo.Posts p
-	WHERE p.Id IN (
-		927378,
-		927386,
-		927397,
-		3377569);
-ROLLBACK;
+-- Provoke a dirty read.
+UPDATE p
+SET p.PostTypeId = 1
+FROM dbo.Posts p
+WHERE p.Id IN (
+	927378,
+	927386,
+	927397,
+	3377569);
 
 -- IMPORTANT.
--- Use this to update demo posts to type 1.
+-- Use this to update demo posts to back to type 2.
 UPDATE p
 SET p.PostTypeId = 2
 FROM dbo.Posts p
@@ -37,3 +28,12 @@ WHERE p.Id IN (
 		927397,
 		3377569
 );
+
+-- Read the rows.
+SELECT p.Id, p.PostTypeId
+FROM dbo.Posts p
+WHERE p.Id IN (
+	927378,
+	927386,
+	927397,
+	3377569);
