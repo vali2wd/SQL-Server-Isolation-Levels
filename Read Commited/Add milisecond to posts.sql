@@ -1,0 +1,24 @@
+ -- _____  ______          _____     _____ ____  __  __ __  __ _____ _______ ______ _____  
+ --|  __ \|  ____|   /\   |  __ \   / ____/ __ \|  \/  |  \/  |_   _|__   __|  ____|  __ \ 
+ --| |__) | |__     /  \  | |  | | | |   | |  | | \  / | \  / | | |    | |  | |__  | |  | |
+ --|  _  /|  __|   / /\ \ | |  | | | |   | |  | | |\/| | |\/| | | |    | |  |  __| | |  | |
+ --| | \ \| |____ / ____ \| |__| | | |___| |__| | |  | | |  | |_| |_   | |  | |____| |__| |
+ --|_|  \_\______/_/    \_\_____/   \_____\____/|_|  |_|_|  |_|_____|  |_|  |______|_____/ 
+
+ --	Specifies that statements can't read data that was modified but not committed by other transactions. This prevents dirty reads. Data can be changed by other transactions between individual statements within the current transaction, resulting in nonrepeatable reads or phantom data. This option is the SQL Server default.
+
+-- Tidy workspace first.
+IF @@TRANCOUNT > 0
+BEGIN 
+	SELECT 
+		tc = @@TRANCOUNT;
+	ROLLBACK;
+END;
+
+-- Add a millisecond to a post's date.
+BEGIN TRANSACTION;
+	UPDATE p
+	SET p.LastActivityDate = DATEADD(MILLISECOND, 1, p.LastActivityDate)
+	FROM dbo.Posts AS p
+	WHERE p.Id = 927386;
+ROLLBACK;
