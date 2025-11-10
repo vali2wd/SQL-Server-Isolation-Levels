@@ -1,5 +1,5 @@
-Goal: Showcase Read Committed Isolation Level allowing dirty reads.
-Why: Because in Read Committed Isolation Level, it is possible to read uncommitted data from other transactions, leading to dirty reads. This is why we are going to demo how a reading of posts is blocked by a transaction that is updating the DateTime of a post, and then is rolled back
+Goal: Showcase Read Uncommitted Isolation Level allowing dirty reads.
+Why: Because in Read Uncommitted Isolation Level, it is possible to read uncommitted data from other transactions, leading to dirty reads. This is why we are going to demo how a reading of posts is blocked by a transaction that is updating the DateTime of a post, and then is rolled back
 
 1. Begin a transaction that updates the time of a post.
         - USE: `Add milisecond to posts.sql`
